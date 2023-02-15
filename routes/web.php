@@ -32,4 +32,4 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-Route::resource('posts', PostController::class);
+Route::resource('posts', PostController::class)->middleware("auth");
