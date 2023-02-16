@@ -14,11 +14,19 @@ class PostTest extends TestCase
     /**
      * A basic feature test example.
      */
+
+    private User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user=$this->createUser();
+    }
+
     public function test_post_page_contains_empty_table(): void
     {
-        $user=User::factory()->create();
-
-        $response = $this->actingAs($user)->get('/posts');
+        $response = $this->actingAs($this->user)->get('/posts');
 
         $response->assertStatus(200);
         $response->assertSee(__("Post Not Found!"));
@@ -26,7 +34,6 @@ class PostTest extends TestCase
 
     public function test_post_page_does_not_contain_empty_table(): void
     {
-        $user=User::factory()->create();
         Post::create([
             "thumbnail"=>"photo.jpg",
             "title"=>"Aung Thu Zaw",
@@ -34,7 +41,7 @@ class PostTest extends TestCase
             "view"=>4,
         ]);
 
-        $response = $this->actingAs($user)->get('/posts');
+        $response = $this->actingAs($this->user)->get('/posts');
 
         $response->assertStatus(200);
         $response->assertDontSee(__("Post Not Found!"));
@@ -42,15 +49,20 @@ class PostTest extends TestCase
 
     public function test_paginated_posts_table_does_not_contain_16th_record(): void
     {
-        $user=User::factory()->create();
         $postCollection=Post::factory(20)->create();
         $sixteenRecord=$postCollection->find(16);
 
-        $response = $this->actingAs($user)->get('/posts');
+        $response = $this->actingAs($this->user)->get('/posts');
 
         $response->assertStatus(200);
         $response->assertViewHas("posts", function ($collection) use ($sixteenRecord) {
             return !$collection->contains($sixteenRecord);
         });
+    }
+
+
+    private function createUser()
+    {
+        return User::factory()->create();
     }
 }
