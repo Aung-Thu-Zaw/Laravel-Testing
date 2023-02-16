@@ -12,6 +12,9 @@
 
 <body class="bg-light">
     <div class="container-fluid p-5">
+        @if(auth()->user()->is_admin)
+        <a href="{{ route('posts.create') }}" class="btn btn-secondary my-3">Create</a>
+        @endif
         <table class="table table-striped table-hover table-bordered shadow-sm">
             <thead>
                 <tr>
@@ -20,7 +23,7 @@
                     <th scope="col">Title</th>
                     <th scope="col">Body</th>
                     <th scope="col">Views</th>
-                    <th scope="col">Created Date</th>
+                    <th scope="col">Date</th>
                 </tr>
             </thead>
             <tbody>

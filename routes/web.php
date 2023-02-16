@@ -32,4 +32,15 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-Route::resource('posts', PostController::class)->middleware("auth");
+Route::controller(PostController::class)
+        ->middleware("auth")
+        ->name("posts.")
+        ->prefix("posts/")
+        ->group(function () {
+            Route::get('/', "index")->name("index");
+
+            Route::middleware("admin")->group(function () {
+                Route::get('/create', "create")->name("create");
+                Route::post('/', "store")->name("store");
+            });
+        });

@@ -16,12 +16,14 @@ class PostTest extends TestCase
      */
 
     private User $user;
+    private User $admin;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->user=$this->createUser();
+        $this->admin=$this->createUser(isAdmin:true);
     }
 
     public function test_post_page_contains_empty_table(): void
@@ -61,8 +63,43 @@ class PostTest extends TestCase
     }
 
 
-    private function createUser()
+    public function test_non_admin_cannot_see_post_create_button()
     {
-        return User::factory()->create();
+        $response = $this->actingAs($this->user)->get('/posts');
+
+        $response->assertStatus(200);
+        $response->assertDontSee("Create");
+    }
+
+
+    public function test_admin_can_see_post_create_button()
+    {
+        $response = $this->actingAs($this->admin)->get('/posts');
+
+        $response->assertStatus(200);
+        $response->assertSee("Create");
+    }
+
+
+    public function test__admin_can_access_post_create_form_page()
+    {
+        $response = $this->actingAs($this->admin)->get('/posts/create');
+
+        $response->assertStatus(200);
+    }
+
+
+    public function test__non_admin_cannot_access_post_create_form_page()
+    {
+        $response = $this->actingAs($this->user)->get('/posts/create');
+
+        $response->assertStatus(403);
+    }
+
+    private function createUser($isAdmin=false)
+    {
+        return User::factory()->create([
+            "is_admin"=>$isAdmin
+        ]);
     }
 }

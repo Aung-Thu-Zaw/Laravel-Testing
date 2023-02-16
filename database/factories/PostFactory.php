@@ -20,7 +20,7 @@ class PostFactory extends Factory
             "thumbnail"=>fake()->imageUrl(),
             "title"=>fake()->sentence(),
             "body"=>fake()->sentence(),
-            "view"=>fake()->randomNumber()
+            "view"=>fake()->randomNumber(),
         ];
     }
 }
