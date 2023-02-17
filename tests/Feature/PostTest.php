@@ -96,6 +96,25 @@ class PostTest extends TestCase
         $response->assertStatus(403);
     }
 
+    public function test_create_post_successful()
+    {
+        $post=[
+            "title"=>"This is a title",
+            "body"=>"This is a body"
+        ];
+
+        $response=$this->actingAs($this->admin)->post("/posts", $post);
+
+        $response->assertStatus(302);
+        $response->assertRedirect("posts");
+
+        $this->assertDatabaseHas("posts", $post);
+
+        $lastPost=Post::latest()->first();
+        $this->assertEquals($post["title"], $lastPost->title);
+        $this->assertEquals($post["body"], $lastPost->body);
+    }
+
     private function createUser($isAdmin=false)
     {
         return User::factory()->create([

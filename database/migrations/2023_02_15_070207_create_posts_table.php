@@ -12,10 +12,10 @@ return new class () extends Migration {
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string("thumbnail");
+            $table->string("thumbnail")->default("https://i.pravatar.cc/300");
             $table->string("title");
             $table->text("body");
-            $table->integer("view");
+            $table->integer("view")->default(0);
             $table->timestamps();
         });
     }
