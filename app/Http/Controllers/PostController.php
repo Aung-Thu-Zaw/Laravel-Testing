@@ -51,15 +51,17 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view("posts.edit", compact("post"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
-        //
+        $post->update($request->validated());
+
+        return to_route("posts.index");
     }
 
     /**

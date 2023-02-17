@@ -115,6 +115,28 @@ class PostTest extends TestCase
         $this->assertEquals($post["body"], $lastPost->body);
     }
 
+    public function test_admin_can_see_post_edit_button()
+    {
+        Post::factory()->create();
+
+        $response = $this->actingAs($this->admin)->get("/posts");
+
+        $response->assertStatus(200);
+        $response->assertSee("Edit");
+    }
+
+    public function test_post_edit_contains_correct_value()
+    {
+        $post=Post::factory()->create();
+
+        $response = $this->actingAs($this->admin)->get("/posts/$post->id/edit");
+
+        $response->assertStatus(200);
+        $response->assertSee('value="'.$post->title.'"', false);
+        $response->assertSee('value="'.$post->body.'"', false);
+        $response->assertViewHas("post", $post);
+    }
+
     private function createUser($isAdmin=false)
     {
         return User::factory()->create([

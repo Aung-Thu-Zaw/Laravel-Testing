@@ -24,6 +24,7 @@
                     <th scope="col">Body</th>
                     <th scope="col">Views</th>
                     <th scope="col">Date</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +39,14 @@
                     <td>{{ $post->body }}</td>
                     <td>{{ $post->view }}</td>
                     <td>{{ $post->created_at->format("Y-m-d") }}</td>
+                    <td>
+
+                        @if(auth()->user()->is_admin)
+                        <a href="{{ route('posts.edit',$post->id) }}" class="btn btn-info">
+                            Edit
+                        </a>
+                        @endif
+                    </td>
                 </tr>
                 @empty
 

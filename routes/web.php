@@ -42,5 +42,7 @@ Route::controller(PostController::class)
             Route::middleware("admin")->group(function () {
                 Route::get('/create', "create")->name("create");
                 Route::post('/', "store")->name("store");
+                Route::get('/{post}/edit', "edit")->name("edit");
+                Route::post('/{post}/update', "update")->name("update");
             });
         });

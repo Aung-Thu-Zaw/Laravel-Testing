@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             "name"=>"Aung Thu Zaw",
             "email"=>"aungthuzaw@gmail.com",
-            "password"=>"Password!"
+            "password"=>"Password!",
+            "is_admin"=>true
         ]);
         // $this->call([PostSeeder::class]);
     }
