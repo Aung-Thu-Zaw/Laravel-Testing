@@ -137,6 +137,19 @@ class PostTest extends TestCase
         $response->assertViewHas("post", $post);
     }
 
+    public function test_post_update_validation_error_redirect_back_to_form()
+    {
+        $post=Post::factory()->create();
+
+        $response = $this->actingAs($this->admin)->put("/posts/$post->id", [
+            "title"=>"",
+            "body"=>"",
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertInvalid(["title","body"]);
+    }
+
     private function createUser($isAdmin=false)
     {
         return User::factory()->create([

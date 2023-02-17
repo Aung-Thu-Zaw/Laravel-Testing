@@ -12,7 +12,7 @@
 
 <body>
     <div class="container p-5">
-        <form action="{{ route('posts.update',$post->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('posts.update',$post) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <input type="file" name="thumbnail" id="" class="form-control">

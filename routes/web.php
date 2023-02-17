@@ -43,6 +43,6 @@ Route::controller(PostController::class)
                 Route::get('/create', "create")->name("create");
                 Route::post('/', "store")->name("store");
                 Route::get('/{post}/edit', "edit")->name("edit");
-                Route::post('/{post}/update', "update")->name("update");
+                Route::put('/{post}', "update")->name("update");
             });
         });
